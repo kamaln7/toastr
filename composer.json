@@ -1,0 +1,22 @@
+{
+    "name": "kamaln7/toastr",
+    "description": "Easy toastr notifications for Laravel 4",
+    "keywords": ["laravel", "notifications", "toastr", "notification"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kamal Nasser",
+            "email": "kamal@kamalnasser.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Kamaln7\\Toastr\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
