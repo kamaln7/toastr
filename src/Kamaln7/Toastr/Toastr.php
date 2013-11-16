@@ -10,6 +10,22 @@ class Toastr {
     protected $notifications = array();
 
     /**
+     * Illuminate Session
+     *
+     * @var \Illuminate\Session\SessionManager
+     */
+    protected $session;
+
+    /**
+     * Constructor
+     *
+     * @param \Illuminate\Session\SessionManager $session
+     */
+    public function __construct(\Illuminate\Session\SessionManager $session) {
+        $this->session = $session;
+    }
+
+    /**
      * Render the notifications' script tag
      *
      * @param bool $flashed Whether to get the 
@@ -17,8 +33,11 @@ class Toastr {
      * @return string
      */
     public function render() {
+        $notifications = $this->session->get('toastr::notifications');
+        if(!$notifications) $notifications = array();
+
         $output = '<script type="text/javascript">';
-        foreach($this->notifications as $notification) {
+        foreach($notifications as $notification) {
             $output .= 'toastr.' . $notification['type'] . "('" . str_replace("'", "\\'", htmlentities($notification['message'])) . "'" . (isset($notification['title']) ? ", '" . str_replace("'", "\\'", htmlentities($notification['title'])) . "'" : null) . ');';
         }
         $output .= '</script>';
@@ -45,6 +64,8 @@ class Toastr {
             'title' => $title,
             'message' => $message
         );
+
+        $this->session->flash('toastr::notifications', $this->notifications);
     }
 
     /**
