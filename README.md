@@ -13,13 +13,15 @@ Installation
 Usage
 -----
 
-1. Include jQuery and [toastr.js](https://github.com/CodeSeven/toastr) in your master view template, and the output of    `Toastr::render()` afterwards:
+Include jQuery and [toastr.js](https://github.com/CodeSeven/toastr) in your master view template, and the output of    `Toastr::render()` afterwards:
+
 ``` html
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.0/js/toastr.min.js"></script>
 {{ Toastr::render() }}
 ```
-2. Call one of these methods in your controllers to insert a toast:
+
+Call one of these methods in your controllers to insert a toast:
   - `Toastr::warning($message, $title = null)` - add a warning toast
   - `Toastr::error($message, $title = null)` - add an error toast
   - `Toastr::info($message, $title = null)` - add an info toast
