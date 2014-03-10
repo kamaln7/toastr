@@ -40,14 +40,14 @@ class Toastr {
         foreach($notifications as $notification) {
 
             // Set up Toastr options
-            if(count($notification->options > 0)){
+            if(count($notification['options'] > 0)){
                 $output .= 'toastr.options = {';
 
-                foreach($options as $key => $val){
-                    $output .= '"'.$key.'": "'.$val.'",',
+                foreach($notification['options'] as $key => $val){
+                    $output .= '"'.$key.'": "'.$val.'",';
                 }
 
-                $output .= '}';
+                $output .= '};';
             }
             
 
@@ -89,7 +89,7 @@ class Toastr {
      * @param string $title The notification's title
      */
     public function info($message, $title = null, $options = array()) {
-        $this->add('info', $message, $title);
+        $this->add('info', $message, $title, $options);
     }
 
     /**
@@ -99,7 +99,7 @@ class Toastr {
      * @param string $title The notification's title
      */
     public function error($message, $title = null, $options = array()) {
-        $this->add('error', $message, $title);
+        $this->add('error', $message, $title, $options);
     }
 
     /**
@@ -109,7 +109,7 @@ class Toastr {
      * @param string $title The notification's title
      */
     public function warning($message, $title = null, $options = array()) {
-        $this->add('warning', $message, $title);
+        $this->add('warning', $message, $title, $options);
     }
 
     /**
@@ -119,7 +119,7 @@ class Toastr {
      * @param string $title The notification's title
      */
     public function success($message, $title = null, $options = array()) {
-        $this->add('success', $message, $title);
+        $this->add('success', $message, $title, $options);
     }
 
     /**
