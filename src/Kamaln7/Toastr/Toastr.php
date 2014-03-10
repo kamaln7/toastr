@@ -1,5 +1,7 @@
 <?php namespace Kamaln7\Toastr;
 
+use Config;
+
 class Toastr {
 
     /**
@@ -23,6 +25,7 @@ class Toastr {
      */
     public function __construct(\Illuminate\Session\SessionManager $session) {
         $this->session = $session;
+        $this->options = Config::get('toastr');
     }
 
     /**
@@ -38,19 +41,21 @@ class Toastr {
 
         $output = '<script type="text/javascript">';
         foreach($notifications as $notification) {
+           
+            // If options arg exists, we replace options value
+            if(count($notification['options'] > 0))
+                $this->setOptions($notification['options']);
 
-            // Set up Toastr options
-            if(count($notification['options'] > 0)){
-                $output .= 'toastr.options = {';
-
-                foreach($notification['options'] as $key => $val){
-                    $output .= '"'.$key.'": "'.$val.'",';
-                }
-
-                $output .= '};';
+            // Writing options for output  
+            $output .= 'toastr.options = {';
+                
+            foreach($this->options as $key => $val){
+                $output .= '"'.$key.'": "'.$val.'",';
             }
-            
 
+            $output .= '};';
+
+            // Toastr output
             $output .= 'toastr.' . $notification['type'] . "('" . str_replace("'", "\\'", htmlentities($notification['message'])) . "'" . (isset($notification['title']) ? ", '" . str_replace("'", "\\'", htmlentities($notification['title'])) . "'" : null) . ');';
         }
         $output .= '</script>';
@@ -127,6 +132,22 @@ class Toastr {
      */
     public function clear() {
         $this->notifications = array();
+    }
+
+    /**
+     * Set options 
+     *
+     * @param array $options The new options settings
+     */
+
+    public function setOptions($options) {
+
+      foreach($options as $key => $val){
+
+        $this->options[$key] = $val;
+
+      }  
+
     }
 
 }
