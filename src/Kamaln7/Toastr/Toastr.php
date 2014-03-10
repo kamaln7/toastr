@@ -38,6 +38,19 @@ class Toastr {
 
         $output = '<script type="text/javascript">';
         foreach($notifications as $notification) {
+
+            // Set up Toastr options
+            if(count($notification->options > 0)){
+                $output .= 'toastr.options = {';
+
+                foreach($options as $key => $val){
+                    $output .= '"'.$key.'": "'.$val.'",',
+                }
+
+                $output .= '}';
+            }
+            
+
             $output .= 'toastr.' . $notification['type'] . "('" . str_replace("'", "\\'", htmlentities($notification['message'])) . "'" . (isset($notification['title']) ? ", '" . str_replace("'", "\\'", htmlentities($notification['title'])) . "'" : null) . ');';
         }
         $output .= '</script>';
@@ -55,14 +68,15 @@ class Toastr {
      * @return bool Returns whether the notification was successfully added or 
      * not.
      */
-    public function add($type, $message, $title = null) {
+    public function add($type, $message, $title = null,$options = array()) {
         $allowedTypes = array('error', 'info', 'success', 'warning');
         if(!in_array($type, $allowedTypes)) return false;
 
         $this->notifications[] = array(
             'type' => $type,
             'title' => $title,
-            'message' => $message
+            'message' => $message,
+            'options' => $options
         );
 
         $this->session->flash('toastr::notifications', $this->notifications);
@@ -74,7 +88,7 @@ class Toastr {
      * @param string $message The notification's message
      * @param string $title The notification's title
      */
-    public function info($message, $title = null) {
+    public function info($message, $title = null, $options = array()) {
         $this->add('info', $message, $title);
     }
 
@@ -84,7 +98,7 @@ class Toastr {
      * @param string $message The notification's message
      * @param string $title The notification's title
      */
-    public function error($message, $title = null) {
+    public function error($message, $title = null, $options = array()) {
         $this->add('error', $message, $title);
     }
 
@@ -94,7 +108,7 @@ class Toastr {
      * @param string $message The notification's message
      * @param string $title The notification's title
      */
-    public function warning($message, $title = null) {
+    public function warning($message, $title = null, $options = array()) {
         $this->add('warning', $message, $title);
     }
 
@@ -104,7 +118,7 @@ class Toastr {
      * @param string $message The notification's message
      * @param string $title The notification's title
      */
-    public function success($message, $title = null) {
+    public function success($message, $title = null, $options = array()) {
         $this->add('success', $message, $title);
     }
 
