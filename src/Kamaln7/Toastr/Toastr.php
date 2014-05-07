@@ -43,7 +43,7 @@ class Toastr {
         foreach($notifications as $notification) {
            
             // If options arg exists, we replace options value
-            if(count($notification['options'] > 0))
+            if(count($notification['options']) > 0))
                 $this->setOptions($notification['options']);
 
             // Writing options for output  
