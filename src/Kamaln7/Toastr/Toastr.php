@@ -25,7 +25,7 @@ class Toastr {
      */
     public function __construct(\Illuminate\Session\SessionManager $session) {
         $this->session = $session;
-        $this->options = Config::get('toastr');
+        $this->options = Config::get('toastr'); // default options
     }
 
     /**
@@ -42,18 +42,11 @@ class Toastr {
         $output = '<script type="text/javascript">';
         foreach($notifications as $notification) {
            
-            // If options arg exists, we replace options value
             if(count($notification['options']) > 0))
-                $this->setOptions($notification['options']);
-
-            // Writing options for output  
-            $output .= 'toastr.options = {';
-                
-            foreach($this->options as $key => $val){
-                $output .= '"'.$key.'": "'.$val.'",';
-            }
-
-            $output .= '};';
+                // Merge user supplied options with default options
+                $options = array_merge($this->options, $notification['options']);
+                // Writing options for output  
+                $output .= 'toastr.options = {' . json_encode($options) . '};';
 
             // Toastr output
             $output .= 'toastr.' . $notification['type'] . "('" . str_replace("'", "\\'", htmlentities($notification['message'])) . "'" . (isset($notification['title']) ? ", '" . str_replace("'", "\\'", htmlentities($notification['title'])) . "'" : null) . ');';
@@ -132,22 +125,6 @@ class Toastr {
      */
     public function clear() {
         $this->notifications = array();
-    }
-
-    /**
-     * Set options 
-     *
-     * @param array $options The new options settings
-     */
-
-    public function setOptions($options) {
-
-      foreach($options as $key => $val){
-
-        $this->options[$key] = $val;
-
-      }  
-
     }
 
 }
