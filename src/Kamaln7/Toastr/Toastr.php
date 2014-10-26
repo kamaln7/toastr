@@ -46,7 +46,7 @@ class Toastr {
                 // Merge user supplied options with default options
                 $options = array_merge($this->options, $notification['options']);
                 // Writing options for output  
-                $output .= 'toastr.options = {' . json_encode($options) . '};';
+                $output .= 'toastr.options = ' . json_encode($options) . ';';
 
             // Toastr output
             $output .= 'toastr.' . $notification['type'] . "('" . str_replace("'", "\\'", htmlentities($notification['message'])) . "'" . (isset($notification['title']) ? ", '" . str_replace("'", "\\'", htmlentities($notification['title'])) . "'" : null) . ');';
