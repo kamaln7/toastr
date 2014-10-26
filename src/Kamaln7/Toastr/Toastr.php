@@ -1,6 +1,6 @@
 <?php namespace Kamaln7\Toastr;
 
-use Config;
+use Illuminate\Config\Repository;
 
 class Toastr {
 
@@ -19,13 +19,22 @@ class Toastr {
     protected $session;
 
     /**
+     * Toastr config
+     *
+     * @var Illuminate\Config\Repository
+     */
+    protected $config;
+
+    /**
      * Constructor
      *
-     * @param \Illuminate\Session\SessionManager $session
+     * @param \Illuminate\Session\SessionManager $sessio
+     * @param  Illuminate\Config\Repository  $config
+     * @return void
      */
-    public function __construct(\Illuminate\Session\SessionManager $session) {
+    public function __construct(\Illuminate\Session\SessionManager $session, Repository $config) {
         $this->session = $session;
-        $this->options = Config::get('toastr'); // default options
+        $this->config = $config;
     }
 
     /**
@@ -44,7 +53,7 @@ class Toastr {
            
             if(count($notification['options']) > 0))
                 // Merge user supplied options with default options
-                $options = array_merge($this->options, $notification['options']);
+                $options = array_merge($this->config->get('toastr::options'), $notification['options']);
                 // Writing options for output  
                 $output .= 'toastr.options = ' . json_encode($options) . ';';
 

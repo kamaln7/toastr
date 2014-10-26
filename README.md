@@ -22,15 +22,21 @@ Include jQuery and [toastr.js](https://github.com/CodeSeven/toastr) in your mast
 ```
 
 Call one of these methods in your controllers to insert a toast:
-  - `Toastr::warning($message, $title = null)` - add a warning toast
-  - `Toastr::error($message, $title = null)` - add an error toast
-  - `Toastr::info($message, $title = null)` - add an info toast
-  - `Toastr::success($message, $title = null)` - add a success toast
-  - `Toastr::add($type: warning|error|info|success, $message, $title = null)` - add a toast
+  - `Toastr::warning($message, $title = null, $options = [])` - add a warning toast
+  - `Toastr::error($message, $title = null, $options = [])` - add an error toast
+  - `Toastr::info($message, $title = null, $options = [])` - add an info toast
+  - `Toastr::success($message, $title = null, $options = [])` - add a success toast
+  - `Toastr::add($type: warning|error|info|success, $message, $title = null, $options = [])` - add a toast
   - **`Toastr::clear()` - clear all current toasts**
 
 ### Setting custom Toastr options
 
-You can set custom default Toastr options by adding a Laravel config key for Toastr. These options can also be overridden by padding an options array to any of the Toastr methods in the Usage section above.
+You can set custom options for Toastr. Run:
+
+``` php
+php artisan config:publish kamaln7/toastr
+```
+
+to publish the config file for Toastr. Then edit `app/config/packages/kamaln7/toastr/config.php` and set the `options` array to whatever you want to pass to Toastr. These options are set as the default options and can be overridden by passing an array of options to any of the methods in the **Usage** section.
 
 For a list of available options, see [toastr.js' documentation](https://github.com/CodeSeven/toastr).
