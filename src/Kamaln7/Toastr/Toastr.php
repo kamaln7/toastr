@@ -1,5 +1,7 @@
 <?php namespace Kamaln7\Toastr;
 
+use Config;
+
 class Toastr {
 
     /**
@@ -23,6 +25,7 @@ class Toastr {
      */
     public function __construct(\Illuminate\Session\SessionManager $session) {
         $this->session = $session;
+        $this->options = Config::get('toastr'); // default options
     }
 
     /**
@@ -38,6 +41,14 @@ class Toastr {
 
         $output = '<script type="text/javascript">';
         foreach($notifications as $notification) {
+           
+            if(count($notification['options']) > 0))
+                // Merge user supplied options with default options
+                $options = array_merge($this->options, $notification['options']);
+                // Writing options for output  
+                $output .= 'toastr.options = {' . json_encode($options) . '};';
+
+            // Toastr output
             $output .= 'toastr.' . $notification['type'] . "('" . str_replace("'", "\\'", htmlentities($notification['message'])) . "'" . (isset($notification['title']) ? ", '" . str_replace("'", "\\'", htmlentities($notification['title'])) . "'" : null) . ');';
         }
         $output .= '</script>';
@@ -55,14 +66,15 @@ class Toastr {
      * @return bool Returns whether the notification was successfully added or 
      * not.
      */
-    public function add($type, $message, $title = null) {
+    public function add($type, $message, $title = null,$options = array()) {
         $allowedTypes = array('error', 'info', 'success', 'warning');
         if(!in_array($type, $allowedTypes)) return false;
 
         $this->notifications[] = array(
             'type' => $type,
             'title' => $title,
-            'message' => $message
+            'message' => $message,
+            'options' => $options
         );
 
         $this->session->flash('toastr::notifications', $this->notifications);
@@ -74,8 +86,8 @@ class Toastr {
      * @param string $message The notification's message
      * @param string $title The notification's title
      */
-    public function info($message, $title = null) {
-        $this->add('info', $message, $title);
+    public function info($message, $title = null, $options = array()) {
+        $this->add('info', $message, $title, $options);
     }
 
     /**
@@ -84,8 +96,8 @@ class Toastr {
      * @param string $message The notification's message
      * @param string $title The notification's title
      */
-    public function error($message, $title = null) {
-        $this->add('error', $message, $title);
+    public function error($message, $title = null, $options = array()) {
+        $this->add('error', $message, $title, $options);
     }
 
     /**
@@ -94,8 +106,8 @@ class Toastr {
      * @param string $message The notification's message
      * @param string $title The notification's title
      */
-    public function warning($message, $title = null) {
-        $this->add('warning', $message, $title);
+    public function warning($message, $title = null, $options = array()) {
+        $this->add('warning', $message, $title, $options);
     }
 
     /**
@@ -104,8 +116,8 @@ class Toastr {
      * @param string $message The notification's message
      * @param string $title The notification's title
      */
-    public function success($message, $title = null) {
-        $this->add('success', $message, $title);
+    public function success($message, $title = null, $options = array()) {
+        $this->add('success', $message, $title, $options);
     }
 
     /**
