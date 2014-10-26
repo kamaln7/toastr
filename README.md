@@ -28,3 +28,9 @@ Call one of these methods in your controllers to insert a toast:
   - `Toastr::success($message, $title = null)` - add a success toast
   - `Toastr::add($type: warning|error|info|success, $message, $title = null)` - add a toast
   - **`Toastr::clear()` - clear all current toasts**
+
+### Setting custom Toastr options
+
+You can set custom default Toastr options by adding a Laravel config key for Toastr. These options can also be overridden by padding an options array to any of the Toastr methods in the Usage section above.
+
+For a list of available options, see [toastr.js' documentation](https://github.com/CodeSeven/toastr).
