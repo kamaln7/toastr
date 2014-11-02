@@ -51,12 +51,12 @@ class Toastr {
         $output = '<script type="text/javascript">';
         foreach($notifications as $notification) {
            
-            if(count($notification['options']) > 0))
+            if(count($notification['options']) > 0) {
                 // Merge user supplied options with default options
                 $options = array_merge($this->config->get('toastr::options'), $notification['options']);
                 // Writing options for output  
                 $output .= 'toastr.options = ' . json_encode($options) . ';';
-
+            }
             // Toastr output
             $output .= 'toastr.' . $notification['type'] . "('" . str_replace("'", "\\'", htmlentities($notification['message'])) . "'" . (isset($notification['title']) ? ", '" . str_replace("'", "\\'", htmlentities($notification['title'])) . "'" : null) . ');';
         }
