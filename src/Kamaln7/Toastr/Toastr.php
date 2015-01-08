@@ -53,7 +53,7 @@ class Toastr {
            
             if(count($notification['options']) > 0) {
                 // Merge user supplied options with default options
-                $options = array_merge($this->config->get('toastr::config'), $notification['options']);
+                $options = array_merge($this->config->get('toastr::options'), $notification['options']);
                 // Writing options for output  
                 $output .= 'toastr.options = ' . json_encode($options) . ';';
             }
