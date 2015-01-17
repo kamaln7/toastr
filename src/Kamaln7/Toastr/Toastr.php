@@ -49,14 +49,22 @@ class Toastr {
         if(!$notifications) $notifications = array();
 
         $output = '<script type="text/javascript">';
+        $lastConfig = [];
         foreach($notifications as $notification) {
+
+            $config = $this->config->get('toastr::options');
            
             if(count($notification['options']) > 0) {
                 // Merge user supplied options with default options
-                $options = array_merge($this->config->get('toastr::options'), $notification['options']);
-                // Writing options for output  
-                $output .= 'toastr.options = ' . json_encode($options) . ';';
+                $config = array_merge($config, $notification['options']);
             }
+
+            // Config persists between toasts
+            if($config != $lastConfig) {
+                $output .= 'toastr.options = ' . json_encode($config) . ';';   
+                $lastConfig = $config;
+            }
+
             // Toastr output
             $output .= 'toastr.' . $notification['type'] . "('" . str_replace("'", "\\'", htmlentities($notification['message'])) . "'" . (isset($notification['title']) ? ", '" . str_replace("'", "\\'", htmlentities($notification['title'])) . "'" : null) . ');';
         }
