@@ -18,7 +18,7 @@ Include jQuery and [toastr.js](https://github.com/CodeSeven/toastr) in your mast
 ``` html
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.min.js"></script>
-{{ Toastr::render() }}
+{!! Toastr::render() !!}
 ```
 
 Call one of these methods in your controllers to insert a toast:
