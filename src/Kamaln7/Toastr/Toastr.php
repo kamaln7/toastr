@@ -9,7 +9,7 @@ class Toastr {
      *
      * @var array
      */
-    protected $notifications = array();
+    protected $notifications = [];
 
     /**
      * Illuminate Session
@@ -28,9 +28,10 @@ class Toastr {
     /**
      * Constructor
      *
-     * @param \Illuminate\Session\SessionManager $sessio
-     * @param  Illuminate\Config\Repository  $config
-     * @return void
+     * @param \Illuminate\Session\SessionManager $session
+     * @param Repository|Illuminate\Config\Repository $config
+     *
+     * @internal param \Illuminate\Session\SessionManager $session
      */
     public function __construct(\Illuminate\Session\SessionManager $session, Repository $config) {
         $this->session = $session;
@@ -40,20 +41,20 @@ class Toastr {
     /**
      * Render the notifications' script tag
      *
-     * @param bool $flashed Whether to get the 
-     *
      * @return string
+     * @internal param bool $flashed Whether to get the
+     *
      */
     public function render() {
         $notifications = $this->session->get('toastr::notifications');
-        if(!$notifications) $notifications = array();
+        if(!$notifications) $notifications = [];
 
         $output = '<script type="text/javascript">';
         $lastConfig = [];
         foreach($notifications as $notification) {
 
-            $config = $this->config->get('toastr::options');
-           
+            $config = $this->config->get('toastr.options');
+
             if(count($notification['options']) > 0) {
                 // Merge user supplied options with default options
                 $config = array_merge($config, $notification['options']);
@@ -83,16 +84,16 @@ class Toastr {
      * @return bool Returns whether the notification was successfully added or 
      * not.
      */
-    public function add($type, $message, $title = null,$options = array()) {
-        $allowedTypes = array('error', 'info', 'success', 'warning');
+    public function add($type, $message, $title = null,$options = []) {
+        $allowedTypes = ['error', 'info', 'success', 'warning'];
         if(!in_array($type, $allowedTypes)) return false;
 
-        $this->notifications[] = array(
+        $this->notifications[] = [
             'type' => $type,
             'title' => $title,
             'message' => $message,
             'options' => $options
-        );
+        ];
 
         $this->session->flash('toastr::notifications', $this->notifications);
     }
@@ -103,7 +104,7 @@ class Toastr {
      * @param string $message The notification's message
      * @param string $title The notification's title
      */
-    public function info($message, $title = null, $options = array()) {
+    public function info($message, $title = null, $options = []) {
         $this->add('info', $message, $title, $options);
     }
 
@@ -113,7 +114,7 @@ class Toastr {
      * @param string $message The notification's message
      * @param string $title The notification's title
      */
-    public function error($message, $title = null, $options = array()) {
+    public function error($message, $title = null, $options = []) {
         $this->add('error', $message, $title, $options);
     }
 
@@ -123,7 +124,7 @@ class Toastr {
      * @param string $message The notification's message
      * @param string $title The notification's title
      */
-    public function warning($message, $title = null, $options = array()) {
+    public function warning($message, $title = null, $options = []) {
         $this->add('warning', $message, $title, $options);
     }
 
@@ -133,7 +134,7 @@ class Toastr {
      * @param string $message The notification's message
      * @param string $title The notification's title
      */
-    public function success($message, $title = null, $options = array()) {
+    public function success($message, $title = null, $options = []) {
         $this->add('success', $message, $title, $options);
     }
 
@@ -141,7 +142,7 @@ class Toastr {
      * Clear all notifications
      */
     public function clear() {
-        $this->notifications = array();
+        $this->notifications = [];
     }
 
 }
