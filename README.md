@@ -1,12 +1,12 @@
 toastr
 ======
 
-Easy [toastr.js](https://github.com/CodeSeven/toastr) notifications for Laravel 5
+Easy [toastr.js](https://github.com/CodeSeven/toastr) notifications for Laravel 5, a ported version of Laravel 4 Toastr by [kamaln7](https://github.com/kamaln7/toastr)
 
 Installation
 ------------
 
-1. Either run `composer require kamaln7/toastr dev-master` or add `"kamaln7/toastr": "dev-master"` to the `require` key in `composer.json` and run `composer install`
+1. Either run `composer require oriceon/toastr dev-master` or add `"oriceon/toastr": "dev-master"` to the `require` key in `composer.json` and run `composer install`
 2. Add `'Kamaln7\Toastr\ToastrServiceProvider',` to the `providers` key in `config/app.php`
 3. Add `'Toastr'          => 'Kamaln7\Toastr\Facades\Toastr',` to the `aliases` key in `config/app.php`
 
