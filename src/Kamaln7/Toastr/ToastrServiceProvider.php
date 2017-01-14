@@ -18,7 +18,7 @@ class ToastrServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('kamaln7/toastr');
+
 	}
 
 	/**
