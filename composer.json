@@ -24,5 +24,15 @@
             "Kamaln7\\Toastr\\": "src/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kamaln7\\Toastr\\ToastrServiceProvider"
+            ],
+            "aliases": {
+                "Toastr": "Kamaln7\\Toastr\\Facades\\Toastr"
+            }
+        }
+    },
 }
