@@ -18,7 +18,9 @@ class ToastrServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('kamaln7/toastr');
+		$this->publishes([
+			__DIR__ . '/../../config/config.php' => config_path('toastr.php'),
+		], 'config');
 	}
 
 	/**
@@ -28,9 +30,9 @@ class ToastrServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-        $this->app['toastr'] = $this->app->share(function($app) {
-            return new Toastr($app['session'], $app['config']);
-        });
+		$this->app->singleton('toastr', function ($app) {
+		    return new Toastr($app['session'], $app['config']);
+		});
 	}
 
 	/**
@@ -40,7 +42,7 @@ class ToastrServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('toastr');
+		return ['toastr'];
 	}
 
 }

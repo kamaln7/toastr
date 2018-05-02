@@ -1,5 +1,5 @@
 <?php
 
-return array(
-    'options' => array()
-);
+return [
+    'options' => []
+];
